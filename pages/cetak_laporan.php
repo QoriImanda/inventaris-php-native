@@ -130,7 +130,19 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data laporan akan ditempatkan di sini -->
+                <tr>
+                    <td>1</td>
+                    <td>v gf f</td>
+                    <td>juuh</td>
+                    <td>huhu</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>v gf f</td>
+                    <td>juuh</td>
+                    <td>huhu</td>
+                </tr>
             </tbody>
         </table>
     </main>
