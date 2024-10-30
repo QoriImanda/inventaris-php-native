@@ -24,6 +24,9 @@ if (isset($_GET['hapus'])) {
     echo "<script>alert('barang berhasil dihapus'); window.location.href='index.php?page=databarang';</script>";
 }
 ?>
+
+<?php if (!(isset($_GET['page']) && $_GET['page'] == "cetaklaporan")) { ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php
@@ -52,10 +55,13 @@ $db = new Class_Barang();
 
     <div id="wrapper">
 
-        <!-- Navigation -->
-        <?php include_once("includes/navbar.php"); ?>
-        <!-- /.navbar-top-links -->
-        <?php include_once("includes/sidebar.php"); ?>
+
+            <!-- Navigation -->
+            <?php include_once("includes/navbar.php"); ?>
+            <!-- /.navbar-top-links -->
+            <?php include_once("includes/sidebar.php"); ?>
+
+
 
         <!-- /.navbar-static-side -->
         <div id="page-wrapper">
@@ -95,7 +101,6 @@ $db = new Class_Barang();
             } else {
                 include_once("pages/dashboard.php");
             }
-
             ?>
 
         </div>
@@ -117,3 +122,14 @@ responsive: true
 </body>
 
 </html>
+<?php } ?>
+
+<?php
+if (isset($_GET['page']) && $_GET['page'] == "cetaklaporan") {
+
+        include_once("pages/cetak_laporan.php");
+}
+?>
+
+
+
