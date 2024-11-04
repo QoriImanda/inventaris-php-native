@@ -10,13 +10,21 @@ $aksi = $_GET["aksi"];
 // ===========================================================================================
 
 if ($aksi == "tambah") {
-    // var_dump($_POST["kode_barang"]);
-    $kode_barang = $_POST["kode_barang"];
-    $nama_barang = $_POST["nama_barang"];
+    // var_dump(json_encode($_POST["kode_barang"][0]));
+    // echo '<pre>';
+    // echo json_encode($_POST, JSON_PRETTY_PRINT);
+    // echo '</pre>';
 
-    $db->input_barangbaru($kode_barang, $nama_barang);
+    for ($i = 0; $i < count($_POST["kode_barang"]); $i++) {
+        $kode_barang = $_POST["kode_barang"][$i];
+        $nama_barang = $_POST["nama_barang"][$i];
+        $db->input_barangbaru($kode_barang, $nama_barang);
 
-    echo "<script>alert('Data barang tersimpan'); window.location.href='../index.php?page=databarang';</script>";
+        $index = $i + 1;
+        if ($index == count($_POST["kode_barang"])) {
+            echo "<script>alert('Data barang tersimpan'); window.location.href='../index.php?page=databarang';</script>";
+        }
+    }
 }
 
 // ===========================================================================================
@@ -27,47 +35,52 @@ else if ($aksi == "tambahbarangmasuk") {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    $nama_supplier = $_POST["nama_supplier"];
-    $id_barangmasuk = $_POST["id_masukbarang"];
-    $nama_barang = $_POST["nama_barang"];
-    $tgl = $_POST["tgl_masuk"];
-    $jumlah = $_POST["jumlah_masuk"];
+    // var_dump(json_encode($_POST["kode_barang"][0]));
+    // echo '<pre>';
+    // echo json_encode($_POST, JSON_PRETTY_PRINT);
+    // echo '</pre>';
 
-    $kdsup = mysqli_query($koneksi, "select kode_supplier from tbl_supplier where nama_supplier='" . $nama_supplier . "'");
-    if (!$kdsup) {
-        die("Error: " . mysqli_error($koneksi));
+    for ($i = 0; $i < count($_POST["id_masukbarang"]); $i++) {
+        $nama_supplier = $_POST["nama_supplier"][$i];
+        $id_barangmasuk = $_POST["id_masukbarang"][$i];
+        $nama_barang = $_POST["nama_barang"][$i];
+        $tgl = $_POST["tgl_masuk"][$i];
+        $jumlah = $_POST["jumlah_masuk"][$i];
+
+        $kdsup = mysqli_query($koneksi, "select kode_supplier from tbl_supplier where nama_supplier='" . $nama_supplier . "'");
+        if (!$kdsup) {
+            die("Error: " . mysqli_error($koneksi));
+        }
+        $skode = mysqli_fetch_array($kdsup);
+        $kode_supplier = $skode["kode_supplier"];
+
+        $kdbarang = mysqli_query($koneksi, "select kode_barang from tbl_barang where nama_barang='" . $nama_barang . "' ");
+        if (!$kdbarang) {
+            die("Error: " . mysqli_error($koneksi));
+        }
+        $skodebrg = mysqli_fetch_array($kdbarang);
+        $kode_barang = $skodebrg["kode_barang"];
+
+        $stok = mysqli_query($koneksi, "select * from tbl_stok where kode_barang ='" . $kode_barang . "' ");
+        if (!$stok) {
+            die("Error: " . mysqli_error($koneksi));
+        }
+        $tmpstok = mysqli_fetch_array($stok);
+        $jml_barang = $tmpstok["jml_barangmasuk"];
+        $jml_barangkeluar = $tmpstok["jml_barangkeluar"];
+        $total = $tmpstok["total_barang"];
+
+        $jml_barangmasuk = $jumlah + $jml_barang;
+        $totalbarang = $jumlah + $jml_barang;
+        $totjumlah_barang = $totalbarang - $jml_barangkeluar;
+
+        $db->input_barangmasuk($id_barangmasuk, $kode_barang, $nama_barang, $tgl, $jumlah, $kode_supplier, $jml_barangmasuk, $totalbarang, $totjumlah_barang);
+
+        $index = $i + 1;
+        if ($index == count($_POST["id_masukbarang"])) {
+            echo "<script>alert('Barang masuk berhasil ditambahkan'); window.location.href='../index.php?page=inputbarangmasuk';</script>";
+        }
     }
-    $skode = mysqli_fetch_array($kdsup);
-    $kode_supplier = $skode["kode_supplier"];
-
-    $kdbarang = mysqli_query($koneksi, "select kode_barang from tbl_barang where nama_barang='" . $nama_barang . "' ");
-    if (!$kdbarang) {
-        die("Error: " . mysqli_error($koneksi));
-    }
-    $skodebrg = mysqli_fetch_array($kdbarang);
-    $kode_barang = $skodebrg["kode_barang"];
-
-    $stok = mysqli_query($koneksi, "select * from tbl_stok where kode_barang ='" . $kode_barang . "' ");
-    if (!$stok) {
-        die("Error: " . mysqli_error($koneksi));
-    }
-    $tmpstok = mysqli_fetch_array($stok);
-
-    $jml_barang = $tmpstok["jml_barangmasuk"];
-    $jml_barangkeluar = $tmpstok["jml_barangkeluar"];
-    $total = $tmpstok["total_barang"];
-
-    $jml_barangmasuk = $jumlah + $jml_barang;
-    $totalbarang = $jumlah + $jml_barang;
-    $totjumlah_barang = $totalbarang - $jml_barangkeluar;
-
-    $result = $db->input_barangmasuk($id_barangmasuk, $kode_barang, $nama_barang, $tgl, $jumlah, $kode_supplier, $jml_barangmasuk, $totalbarang, $totjumlah_barang);
-
-    if (!$result) {
-        die("Error adding barang masuk: " . mysqli_error($koneksi));
-    }
-
-    echo "<script>alert('Barang masuk berhasil ditambahkan'); window.location.href='../index.php?page=inputbarangmasuk';</script>";
 }
 
 // ===========================================================================================
@@ -75,38 +88,49 @@ else if ($aksi == "tambahbarangmasuk") {
 // ===========================================================================================
 else if ($aksi == "tambahdatapinjam") {
 
-    $no_pinjam = $_POST["no_pinjam"];
-    $tgl_pinjam = $_POST["tgl_pinjam"];
-    $nama_barang = $_POST["nama_barang"];
-    $tgl_kembali = $_POST["tgl_kembali"];
-    $jumlah_pinjam = $_POST["jumlah_pinjam"];
-    $nama_peminjam = $_POST["nama_peminjam"];
-    $keterangan = $_POST["keterangan"];
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
+    // var_dump(json_encode($_POST["kode_barang"][0]));
+    // echo '<pre>';
+    // echo json_encode($_POST, JSON_PRETTY_PRINT);
+    // echo '</pre>';
 
-    $kodebrg =  mysqli_query($koneksi, "select kode_barang, jumlah_brg from tbl_barang where nama_barang='" . $nama_barang . "'");
-    $kd = mysqli_fetch_array($kodebrg);
-    $kode_barang = $kd["kode_barang"];
-    $jumlah_brg = $kd["jumlah_brg"];
+    for ($i = 0; $i < count($_POST["nama_barang"]); $i++) {
+        // $no_pinjam = $_POST["no_pinjam"][$i];
+        $tgl_pinjam = $_POST["tgl_pinjam"][$i];
+        $nama_barang = $_POST["nama_barang"][$i];
+        // $tgl_kembali = $_POST["tgl_kembali"][$i];
+        $jumlah_pinjam = $_POST["jumlah_pinjam"][$i];
+        // $nama_peminjam = $_POST["nama_peminjam"][$i];
+        // $keterangan = $_POST["keterangan"][$i];
 
-    $totalbarang = $jumlah_brg - $jumlah_pinjam;
+        $kodebrg =  mysqli_query($koneksi, "select kode_barang, jumlah_brg from tbl_barang where nama_barang='" . $nama_barang . "'");
+        $kd = mysqli_fetch_array($kodebrg);
+        $kode_barang = $kd["kode_barang"];
+        $jumlah_brg = $kd["jumlah_brg"];
 
-    $cekstok = mysqli_query($koneksi, "select jml_barangkeluar,total_barang from tbl_stok where kode_barang='" . $kode_barang . "'");
-    $cek = mysqli_fetch_array($cekstok);
-    $jumlah_barangkeluar = $cek["jml_barangkeluar"];
-    // $tot_stok = $cek["total_barang"];
-    // $total_stok = $tot_stok - $jumlah_pinjam;
+        $totalbarang = $jumlah_brg - $jumlah_pinjam;
 
-    $totbarangkeluar = $jumlah_barangkeluar + $jumlah_pinjam;
+        $cekstok = mysqli_query($koneksi, "select jml_barangkeluar,total_barang from tbl_stok where kode_barang='" . $kode_barang . "'");
+        $cek = mysqli_fetch_array($cekstok);
+        $jumlah_barangkeluar = $cek["jml_barangkeluar"];
+        $tot_stok = $cek["total_barang"];
+        $total_stok = $tot_stok - $jumlah_pinjam;
 
-    if ($jumlah_pinjam > $jumlah_brg) {
+        $totbarangkeluar = $jumlah_barangkeluar + $jumlah_pinjam;
 
-        echo "<script>alert('Jumlah barang yang dipinjam terlalu banyak! Jumlah barang tersedia hanya = $jumlah_brg, mohon kembali input ulang.'); window.location.href='../index.php?page=formpeminjaman';</script>";
-    } else {
+        if ($jumlah_pinjam > $jumlah_brg) {
+            echo "<script>alert('Jumlah barang yang diambil terlalu banyak! $nama_barang tersedia hanya = $jumlah_brg, mohon kembali input ulang.'); window.location.href='../index.php?page=formpeminjaman';</script>";
+        } else {
+            $db->input_datapeminjaman($kode_barang, $nama_barang, $jumlah_pinjam, $totalbarang, $totbarangkeluar, $tgl_pinjam, $total_stok);
+        }
 
-        $db->input_datapeminjaman($no_pinjam, $tgl_pinjam, $kode_barang, $nama_barang, $jumlah_pinjam, $nama_peminjam, $tgl_kembali, $keterangan, $totalbarang, $totbarangkeluar);
-
-        echo "<script>alert('Data peminjaman tersimpan'); window.location.href='../index.php?page=peminjaman';</script>";
+        $index = $i + 1;
+        if ($index == count($_POST["nama_barang"])) {
+            echo "<script>alert('Data barang keluar tersimpan'); window.location.href='../index.php?page=barangkeluar';</script>";
+        }
     }
 }
 

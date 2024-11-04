@@ -1,51 +1,21 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Tambah Barang Baru</h1>
+        <h1 class="page-header">Laporan</h1>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
-        <form action="pages/proses_barang.php?aksi=tambah" method="post" enctype="multipart/form-data">
-            <div id="input-panels">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Input Barang
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Kode Barang</label>
-                                    <input type="text" name="kode_barang[]" value="<?= $hasilkode ?>" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Nama Barang</label>
-                                    <input type="text" placeholder="Masukan Nama Barang" name="nama_barang[]" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row" style="margin: 20px;">
+                    <div class="col-md-6 col-xs-12">
+                        <a href='?page=cetaklaporan' class="btn btn-default">Barang Masuk</a>
+                        <a href='?page=cetaklaporan' class="btn btn-default">Barang Keluar</a>
                     </div>
                 </div>
             </div>
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row" style="margin: 20px;">
-                        <div class="col-md-6 col-xs-12">
-                            <button type="submit" name="submit" value="Simpan" class="btn btn-default" style="background-color: #333; color: #fff; margin-right: 10px;">Submit</button>
-                            <a href='?page=data_barang' class="btn btn-default">Batal</a>
-                        </div>
-                        <div class="col-md-6 col-xs-12 text-right">
-                            <button type="button" class="btn btn-danger" id="remove-btn" style="margin-right: 10px;">-</button>
-                            <button type="button" class="btn btn-primary" id="add-btn">+</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

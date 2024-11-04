@@ -158,21 +158,21 @@ function jumlah_barangM()
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Data Barang Masuk
+                Barang Masuk
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" id="dataTables-example">
+                <table id="barang_masuk" class="display nowrap" style="width:100%">
                     <thead>
                         <?php
-                        if (is_array($db->tampil_barangmasuk()) && count($db->tampil_barangmasuk()) > 0) {
+                        if (is_array($db->tampil_barangmasuk_view_in_dashboard()) && count($db->tampil_barangmasuk_view_in_dashboard()) > 0) {
                         ?>
                             <tr>
-                                <th>No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Jumlah Masuk</th>
-                                <th>Tanggal Masuk</th>
+                                <!-- <th>No</th> -->
+                                <th>Kode</th>
+                                <th>Barang</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
                                 <th>Supplier</th>
                             </tr>
                     </thead>
@@ -180,11 +180,11 @@ function jumlah_barangM()
                         <?php
                             $no = 1;
 
-                            foreach ($db->tampil_barangmasuk() as $row) {
+                            foreach ($db->tampil_barangmasuk_view_in_dashboard() as $row) {
 
                         ?>
                             <tr>
-                                <td><?= $no++ ?></td>
+                                <!-- <td><?= $no++ ?></td> -->
                                 <td><?= $row['kode_barang'] ?></td>
                                 <td><?= $row['nama_barang'] ?></td>
                                 <td><?= $row['jumlah_masuk'] ?></td>
@@ -204,38 +204,34 @@ function jumlah_barangM()
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Laporan Data Barang Keluar
+                Barang Keluar
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" id="dataTables-example">
+                <table id="barang_keluar" class="display nowrap" style="width:100%">
                     <thead>
                         <?php
-                        if (is_array($db->tampil_barangkeluar()) && count($db->tampil_barangkeluar()) > 0) {
+                        if (is_array($db->tampil_barangkeluar_view_in_dashboard()) && count($db->tampil_barangkeluar_view_in_dashboard()) > 0) {
                         ?>
                             <tr>
-                                <th>No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Tanggal Keluar</th>
-                                <th>Jumlah Keluar</th>
+                                <!-- <th>No</th> -->
+                                <th>Kode</th>
+                                <th>barang</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
                             </tr>
                     </thead>
                     <tbody>
                         <?php
-
                             $no = 1;
-
-                            foreach ($db->tampil_barangkeluar() as $row) {
-
-
+                            foreach ($db->tampil_barangkeluar_view_in_dashboard() as $row) {
                         ?>
                             <tr>
-                                <td><?= $no++ ?></td>
+                                <!-- <td><?= $no++ ?></td> -->
                                 <td><?= $row['kode_barang'] ?></td>
                                 <td><?= $row['nama_barang'] ?></td>
-                                <td><?= $row['tgl_keluar'] ?></td>
                                 <td><?= $row['jumlah_keluar'] ?></td>
+                                <td><?= $row['tgl_keluar'] ?></td>
                             </tr>
                     <?php }
                         } ?>
@@ -249,3 +245,19 @@ function jumlah_barangM()
         <!-- /.panel -->
     </div>
 </div> <!-- /.row -->
+
+<script>
+    new DataTable('#barang_masuk', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
+
+    new DataTable('#barang_keluar', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
+</script>

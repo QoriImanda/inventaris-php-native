@@ -27,33 +27,33 @@ if (isset($_GET['hapus'])) {
 
 <?php if (!(isset($_GET['page']) && $_GET['page'] == "cetaklaporan")) { ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<?php
-include_once("config/Class_Barang.php");
-$db = new Class_Barang();
-
-
-?>
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Inventaris SRC CIK IRAT</title>
-
+    <!DOCTYPE html>
+    <html lang="en">
     <?php
-    include_once("includes/header.php"); ?>
+    include_once("config/Class_Barang.php");
+    $db = new Class_Barang();
 
-</head>
 
-<body>
+    ?>
 
-    <div id="wrapper">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Inventaris SRC CIK IRAT</title>
+
+        <?php
+        include_once("includes/header.php"); ?>
+
+    </head>
+
+    <body>
+
+        <div id="wrapper">
 
 
             <!-- Navigation -->
@@ -63,55 +63,58 @@ $db = new Class_Barang();
 
 
 
-        <!-- /.navbar-static-side -->
-        <div id="page-wrapper">
+            <!-- /.navbar-static-side -->
+            <div id="page-wrapper">
 
-            <?php
+                <?php
 
-            if (isset($_GET['page']) && $_GET['page'] == "databarang") {
+                if (isset($_GET['page']) && $_GET['page'] == "databarang") {
 
-                include_once("pages/data_barang.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "barangbaru") {
+                    include_once("pages/data_barang.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "barangbaru") {
 
-                include_once("pages/input_barang.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "update") {
+                    include_once("pages/input_barang.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "update") {
 
-                include_once("pages/edit_barang.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "barangmasuk") {
+                    include_once("pages/edit_barang.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "barangmasuk") {
 
-                include_once("pages/data_barangmasuk.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "barangkeluar") {
+                    include_once("pages/data_barangmasuk.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "barangkeluar") {
 
-                include_once("pages/data_barangkeluar.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "inputbarangmasuk") {
+                    include_once("pages/data_barangkeluar.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "inputbarangmasuk") {
 
-                include_once("pages/input_barangmasuk.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "peminjaman") {
+                    include_once("pages/input_barangmasuk.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "peminjaman") {
 
-                include_once("pages/data_peminjaman.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "formpeminjaman") {
+                    include_once("pages/data_peminjaman.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "formpeminjaman") {
 
-                include_once("pages/form_peminjaman.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "datastok") {
+                    include_once("pages/form_peminjaman.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "datastok") {
 
-                include_once("stok/data_stok.php");
-            } else if (isset($_GET['page']) && $_GET['page'] == "pengaturan") {
+                    include_once("stok/data_stok.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "pengaturan") {
 
-                include_once("pages/pengaturan.php");
-            } else {
-                include_once("pages/dashboard.php");
-            }
-            ?>
+                    include_once("pages/pengaturan.php");
+                } else if (isset($_GET['page']) && $_GET['page'] == "laporan") {
+
+                    include_once("pages/laporan.php");
+                } else {
+                    include_once("pages/dashboard.php");
+                }
+                ?>
+
+            </div>
+            <!-- /#pag-wrapper -->
 
         </div>
-        <!-- /#pag-wrapper -->
+        <!-- /#wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+        <?php include_once("includes/footer.php"); ?>
 
-    <?php include_once("includes/footer.php"); ?>
-
-    <!-- <script>
+        <!-- <script>
 $(document).ready(function() {
 $('#dataTables-example').DataTable({
 responsive: true
@@ -119,17 +122,14 @@ responsive: true
 });
 </script>
  -->
-</body>
+    </body>
 
-</html>
+    </html>
 <?php } ?>
 
 <?php
 if (isset($_GET['page']) && $_GET['page'] == "cetaklaporan") {
 
-        include_once("pages/cetak_laporan.php");
+    include_once("pages/cetak_laporan.php");
 }
 ?>
-
-
-

@@ -5,6 +5,7 @@ $carikode = mysqli_query($koneksi, "select max(kode_barang) from tbl_barang") or
 // menjadikannya array
 $datakode = mysqli_fetch_array($carikode);
 // jika $datakode
+
 if ($datakode) {
   // membuat variabel baru untuk mengambil kode barang mulai dari 1
   $nilaikode = substr($datakode[0], 1);
@@ -16,6 +17,7 @@ if ($datakode) {
   // angka 3 untuk menambahkan tiga angka setelah B dan angka 0 angka yang berada di tengah
   // atau angka sebelum $kode
   $hasilkode = "B" . str_pad($kode, 3, "0", STR_PAD_LEFT);
+  // var_dump($hasilkode);
 } else {
   $hasilkode = "B001";
 }

@@ -3,7 +3,7 @@
         <div class="page-header">
             <h1>Data Stok</h1>
             <div class="text-right" style="margin-top: -4%;">
-                <a href="stok/cetak_stok.php" target="_blank" class="btn btn-default " style ""><i class="fa fa-print "></i> Print </a>
+                <a href="stok/cetak_stok.php" target="_blank" class="btn btn-default"><i class="fa fa-print "></i> Print </a>
             </div>
         </div>
 
@@ -19,7 +19,7 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" id="dataTables-example">
+                <table id="table" class="display nowrap" style="width:100%">
                     <thead>
                         <?php
                         ?>
@@ -30,6 +30,7 @@
                             <th>Jumlah Barang Masuk</th>
                             <th>Jumlah Barang Keluar</th>
                             <th>Total Barang Saat Ini Tersedia</th>
+                            <!-- <th>Aksi</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +49,7 @@
                                     <td><?= $row['jml_barangmasuk'] ?></td>
                                     <td><?= $row['jml_barangkeluar'] ?></td>
                                     <td><?= $row['jumlah_brg'] ?></td>
-                                    <td><a href="?id=<?= $row['kode_barang'] ?>&page=update">Edit</a> - <a href="?hapus&id=<?= $row['kode_barang'] ?>" onclick="return confirm('Yakin mau dihapus?');">Hapus</a></td>
+                                    <!-- <td><a href="?id=<?= $row['kode_barang'] ?>&page=update">Edit</a> - <a href="?hapus&id=<?= $row['kode_barang'] ?>" onclick="return confirm('Yakin mau dihapus?');">Hapus</a></td> -->
                                 </tr>
                         <?php }
                         } ?>
@@ -64,3 +65,12 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<script>
+    new DataTable('#table', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
+</script>

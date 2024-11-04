@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Laporan Data Barang Keluar</h1>
+        <h1 class="page-header">Barang Keluar</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -9,21 +9,21 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Laporan Data Barang Keluar
+                Barang Keluar
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" id="dataTables-example">
+                <table id="table" class="display nowrap" style="width:100%">
                     <thead>
                         <?php
                         if (is_array($db->tampil_barangkeluar()) && count($db->tampil_barangkeluar()) > 0) {
                         ?>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Tanggal Keluar</th>
-                                <th>Jumlah Keluar</th>
+                                <th>Kode</th>
+                                <th>Barang</th>
+                                <th>Tanggal</th>
+                                <th>Jumlah</th>
                             </tr>
                     </thead>
                     <tbody>
@@ -56,3 +56,12 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<script>
+    new DataTable('#table', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
+</script>

@@ -13,7 +13,7 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <table width="100%" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" id="dataTables-example">
+                <table id="table" class="display nowrap" style="width:100%">
                     <thead>
                         <?php
                         if (is_array($db->tampil_barangmasuk()) && count($db->tampil_barangmasuk()) > 0) {
@@ -21,10 +21,10 @@
                         ?>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Jumlah Masuk</th>
-                                <th>Tanggal Masuk</th>
+                                <th>Kode</th>
+                                <th>Barang</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
                                 <th>Supplier</th>
                             </tr>
                     </thead>
@@ -57,3 +57,12 @@
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<script>
+    new DataTable('#table', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        }
+    });
+</script>

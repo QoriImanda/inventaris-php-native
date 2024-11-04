@@ -76,6 +76,29 @@ class Class_Barang
         }
     }
 
+    function tampil_barangmasuk_view_in_dashboard()
+    {
+        include("config.php");
+
+        $sql = "select * from tbl_barang a inner join tbl_masukbarang b inner join tbl_stok c on a.kode_barang=b.kode_barang and a.kode_barang=c.kode_barang inner join tbl_supplier d on b.kode_supplier=d.kode_supplier WHERE b.tgl_masuk >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY b.tgl_masuk DESC";
+
+        // echo $sql;
+        $data = mysqli_query($koneksi, $sql);
+
+        $data1 = mysqli_num_rows($data);
+        if ($data1 == 0) {
+
+            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+        } else {
+
+            while ($d = mysqli_fetch_assoc($data)) {
+
+                $hasil[] = $d;
+            }
+            return $hasil;
+        }
+    }
+
     function tampil_peminjaman()
     {
         include("config.php");
@@ -108,6 +131,30 @@ class Class_Barang
 
         $data1 = mysqli_num_rows($data);
         if ($data1 == 0) {
+            var_dump($data1);
+
+            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+        } else {
+
+            while ($d = mysqli_fetch_assoc($data)) {
+
+                $hasil[] = $d;
+            }
+            return $hasil;
+        }
+    }
+
+    function tampil_barangkeluar_view_in_dashboard()
+    {
+        include("config.php");
+
+        $sql = "select * from tbl_keluarbarang WHERE tgl_keluar >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY tgl_keluar DESC";
+
+        $data = mysqli_query($koneksi, $sql);
+
+        $data1 = mysqli_num_rows($data);
+        if ($data1 == 0) {
+            var_dump($data1);
 
             echo "<div class='alert alert-danger'>Tidak ada data</div>";
         } else {
@@ -203,24 +250,27 @@ class Class_Barang
         $data3 = mysqli_query($koneksi, $sql3);
     }
 
-    function input_datapeminjaman($no_pinjam, $tgl_pinjam, $kode_barang, $nama_barang, $jumlah_pinjam, $nama_peminjam, $tgl_kembali, $keterangan, $totalbarang, $jmlbarangkeluar)
+    function input_datapeminjaman($kode_barang, $nama_barang, $jumlah_pinjam, $totalbarang, $jmlbarangkeluar, $tgl_pinjam, $total_stok)
     {
         include("config.php");
 
-        $sql = "insert into tbl_keluarbarang values('" . $no_pinjam . "','" . $kode_barang . "','" . $nama_barang . "','" . $tgl_pinjam . "','" . $nama_peminjam . "','" . $jumlah_pinjam . "')";
+        $sql = "insert into tbl_keluarbarang values('" . $kode_barang . "','" . $nama_barang . "','" . $tgl_pinjam . "','" . $jumlah_pinjam . "')";
         // echo $sql;
         $data = mysqli_query($koneksi, $sql);
 
-        $sql1 = "insert into tbl_pinjam values('" . $no_pinjam . "','" . $tgl_pinjam . "','" . $kode_barang . "','" . $nama_barang . "','" . $jumlah_pinjam . "','" . $nama_peminjam . "','" . $tgl_kembali . "','" . $keterangan . "')";
+        // $sql1 = "insert into tbl_pinjam values('" . $no_pinjam . "','" . $tgl_pinjam . "','" . $kode_barang . "','" . $nama_barang . "','" . $jumlah_pinjam . "','" . $nama_peminjam . "','" . $tgl_kembali . "','" . $keterangan . "')";
         // echo $sql1;
-        $data1 = mysqli_query($koneksi, $sql1);
+        // $data1 = mysqli_query($koneksi, $sql1);
 
         $sql2 = "update tbl_barang set jumlah_brg='" . $totalbarang . "' where kode_barang='" . $kode_barang . "'";
         // echo $sql2;
 
         $data2 = mysqli_query($koneksi, $sql2);
 
-        $sql3 = "update tbl_stok set jml_barangkeluar='" . $jmlbarangkeluar . "' where kode_barang='" . $kode_barang . "'";
+        $sql3 = "UPDATE tbl_stok 
+          SET jml_barangkeluar = '" . $jmlbarangkeluar . "', 
+              total_barang = '" . $total_stok . "' 
+          WHERE kode_barang = '" . $kode_barang . "'";
         // echo $sql3;
 
         $data3 = mysqli_query($koneksi, $sql3);

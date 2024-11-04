@@ -30,7 +30,7 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="index.php?page=barangkeluar"><i class="fa fa-sign-out fa-fw"></i> Laporan Barang Keluar</a>
+                <a href="index.php?page=laporan"><i class="fa fa-sign-out fa-fw"></i> Laporan</a>
                 <!-- <ul class="nav nav-second-level">
                 <li>
                     <a href="?page=barangkeluar"><i class="fa fa-angle-right fa-fw"></i>Data Barang Keluar</a>
@@ -45,7 +45,7 @@
                 <a href="#"><i class="fa fa-th-list fa-fw"></i> Barang Keluar<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="index.php?page=peminjaman"><i class="fa fa-angle-right fa-fw"></i>Data Barang Keluar</a>
+                        <a href="index.php?page=barangkeluar"><i class="fa fa-angle-right fa-fw"></i>Data Barang Keluar</a>
                     </li>
                     <li>
                         <a href="index.php?page=formpeminjaman"><i class="fa fa-angle-right fa-fw"></i>Tambah Barang Keluar</a>
