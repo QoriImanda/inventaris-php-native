@@ -25,11 +25,11 @@ if ($cetakLaporan == 'masuk') {
 // var_dump($data);
 
 if ($data == null) {
-$html = '
+    $html = '
     <h4>Data tidak ada</h4>
 ';
 } else {
-$html = '
+    $html = '
     <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -72,7 +72,7 @@ $html = '
         </head>
         <body>
             <h2>Laporan Barang ' . htmlspecialchars($cetakLaporan) . '</h2>
-            <p class="date">Tanggal: ' . date("d-m-Y") . '</p>
+            <p class="date">Tanggal: ' . $_POST['tgl_mulai'] . '-' . $_POST['tgl_akhir'] . '</p>
             <table>
                 <thead>
                     <tr>
