@@ -128,7 +128,7 @@ responsive: true
 <?php } ?>
 
 <?php
-if (isset($_GET['page']) && $_GET['page'] == "cetaklaporan") {
+if ($_GET['page'] == "cetaklaporan") {
 
     include_once("pages/cetak_laporan.php");
 }

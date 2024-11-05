@@ -1,155 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Laporan</title>
-</head>
-<style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f9fc;
-            margin: 20px;
-            color: #333;
-        }
+<?php
+require_once 'vendor/dompdf/autoload.inc.php';
 
-        header, footer {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-        h1 {
-            color: #007BFF; /* Blue color */
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        }
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isPhpEnabled', true);
+$dompdf = new Dompdf($options);
 
-        h2 {
-            color: #444;
-            margin-top: 20px;
-            font-size: 2em;
-            text-decoration: underline;
-        }
+$cetakLaporan = $_GET['barang'];
 
-        .date {
-            font-size: 1.2em;
-            color: #666;
-            margin-top: 5px;
-        }
+// var_dump($_POST['tgl_mulai']);
+// echo '<pre>';
+// echo json_encode($_POST, JSON_PRETTY_PRINT);
+// echo '</pre>';
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+if ($cetakLaporan == 'masuk') {
+    $data = $db->cetakLaporanBarangMasuk($_POST['tgl_mulai'], $_POST['tgl_akhir']);
+} elseif ($cetakLaporan == 'keluar') {
+    $data = $db->cetakLaporanBarangKeluar($_POST['tgl_mulai'], $_POST['tgl_akhir']);
+}
 
-        th, td {
-            padding: 15px;
-            text-align: left;
-            transition: background-color 0.3s ease;
-        }
+// var_dump($data);
 
-        th {
-            background-color: #007BFF; /* Blue color */
-            color: white;
-            text-transform: uppercase;
-            font-size: 1em;
-        }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+$html = '
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cetak Laporan</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                    color: #333;
+                }
+                h2 {
+                    text-align: center;
+                    color: #444;
+                    font-size: 2em;
+                    margin-bottom: 10px;
+                }
+                .date {
+                    font-size: 1em;
+                    color: #666;
+                    margin-top: 10px;
+                    text-align: center;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+                th, td {
+                    padding: 10px;
+                    text-align: left;
+                    border: 1px solid #ddd;
+                    font-size: 1em;
+                }
+                th {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>Laporan Barang ' . htmlspecialchars($cetakLaporan) . '</h2>
+            <p class="date">Tanggal: ' . date("d-m-Y") . '</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Barang</th>
+                        <th>Jumlah</th>
+                        <th>Tanggal Masuk</th>
+                    </tr>
+                </thead>
+                <tbody>';
 
-        tr:hover {
-            background-color: #e0f7ff; /* Light blue on hover */
-        }
+$no = 1;
+foreach ($data as $row) {
+    $jumlah = $row['jumlah_brg'] ?? $row['jumlah_keluar']; // Ambil jumlah_barang atau jumlah_keluar jika ada
+    $tgl = $row['tgl_masuk'] ?? $row['tgl_keluar'];
+    $html .= '
+                    <tr>
+                        <td>' . $no++ . '</td>
+                        <td>' . htmlspecialchars($row['nama_barang']) . '</td>
+                        <td>' . htmlspecialchars($jumlah) . '</td>
+                        <td>' . date('d-m-Y', strtotime($tgl)) . '</td>
+                    </tr>';
+}
 
-        footer {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 20px;
-        }
+$html .= '
+                </tbody>
+            </table>
+        </body>
+    </html>
+';
 
-        .highlight {
-            color: #d9534f; /* Highlight color */
-            font-weight: bold;
-        }
-    </style>
-<body>
-
-    <header>
-        <h1>Laporan Inventaris</h1>
-        <p>Tanggal: </p>
-    </header>
-
-    <main>
-        <h2>Detail Laporan</h2> 
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal Masuk</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Baju</td>
-                    <td>1123</td>
-                    <td>12-10-2024</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Celana</td>
-                    <td>3412</td>
-                    <td>13-10-2024</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Rok</td>
-                    <td>3412</td>
-                    <td>14-10-2024</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Hijab</td>
-                    <td>651</td>
-                    <td>14-10-2024</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Sepatu</td>
-                    <td>7546</td>
-                    <td>15-10-2024</td>
-                </tr>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>v gf f</td>
-                    <td>juuh</td>
-                    <td>huhu</td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>v gf f</td>
-                    <td>juuh</td>
-                    <td>huhu</td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
-
-    <footer>
-        <p>© 2024 Inventaris SRC CIK IRAT. All rights reserved.</p>
-    </footer>
-
-</body>
-</html>
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'portrait');
+$dompdf->render();
+$dompdf->stream("laporan_penjualan.pdf", array("Attachment" => 0));  // 0 untuk menampilkan di browser, 1 untuk mendownload

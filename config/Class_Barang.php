@@ -99,6 +99,31 @@ class Class_Barang
         }
     }
 
+    function cetakLaporanBarangMasuk($tgl_mulai, $tgl_akhir)
+    {
+        include("config.php");
+
+        // var_dump($tgl_mulai, $tgl_akhir);
+
+        $sql = "select * from tbl_barang a inner join tbl_masukbarang b inner join tbl_stok c on a.kode_barang=b.kode_barang and a.kode_barang=c.kode_barang inner join tbl_supplier d on b.kode_supplier=d.kode_supplier WHERE tgl_masuk BETWEEN '" . $tgl_mulai . "' AND '" . $tgl_akhir . "' ORDER BY b.tgl_masuk DESC";
+
+        // echo $sql;
+        $data = mysqli_query($koneksi, $sql);
+
+        $data1 = mysqli_num_rows($data);
+        if ($data1 == 0) {
+
+            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+        } else {
+
+            while ($d = mysqli_fetch_assoc($data)) {
+
+                $hasil[] = $d;
+            }
+            return $hasil;
+        }
+    }
+
     function tampil_peminjaman()
     {
         include("config.php");
@@ -126,6 +151,34 @@ class Class_Barang
         include("config.php");
 
         $sql = "select * from tbl_keluarbarang";
+
+        $data = mysqli_query($koneksi, $sql);
+
+        $data1 = mysqli_num_rows($data);
+        if ($data1 == 0) {
+            var_dump($data1);
+
+            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+        } else {
+
+            while ($d = mysqli_fetch_assoc($data)) {
+
+                $hasil[] = $d;
+            }
+            return $hasil;
+        }
+    }
+
+    function cetakLaporanBarangKeluar($tgl_mulai, $tgl_akhir)
+    {
+        include("config.php");
+
+        $sql = "
+            SELECT * 
+            FROM tbl_keluarbarang 
+            WHERE tgl_keluar BETWEEN '" . $tgl_mulai . "' AND '" . $tgl_akhir . "'
+            ORDER BY tgl_keluar DESC
+        ";
 
         $data = mysqli_query($koneksi, $sql);
 
