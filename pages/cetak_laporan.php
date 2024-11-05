@@ -24,7 +24,11 @@ if ($cetakLaporan == 'masuk') {
 
 // var_dump($data);
 
-
+if ($data == null) {
+$html = '
+    <h4>Data tidak ada</h4>
+';
+} else {
 $html = '
     <html lang="en">
         <head>
@@ -80,25 +84,27 @@ $html = '
                 </thead>
                 <tbody>';
 
-$no = 1;
-foreach ($data as $row) {
-    $jumlah = $row['jumlah_brg'] ?? $row['jumlah_keluar']; // Ambil jumlah_barang atau jumlah_keluar jika ada
-    $tgl = $row['tgl_masuk'] ?? $row['tgl_keluar'];
-    $html .= '
+    $no = 1;
+    foreach ($data as $row) {
+        $jumlah = $row['jumlah_brg'] ?? $row['jumlah_keluar']; // Ambil jumlah_barang atau jumlah_keluar jika ada
+        $tgl = $row['tgl_masuk'] ?? $row['tgl_keluar'];
+        $html .= '
                     <tr>
                         <td>' . $no++ . '</td>
                         <td>' . htmlspecialchars($row['nama_barang']) . '</td>
                         <td>' . htmlspecialchars($jumlah) . '</td>
                         <td>' . date('d-m-Y', strtotime($tgl)) . '</td>
                     </tr>';
-}
+    }
 
-$html .= '
+
+    $html .= '
                 </tbody>
             </table>
         </body>
     </html>
 ';
+}
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');

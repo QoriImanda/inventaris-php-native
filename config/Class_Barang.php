@@ -113,7 +113,7 @@ class Class_Barang
         $data1 = mysqli_num_rows($data);
         if ($data1 == 0) {
 
-            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+            // echo "<div class='alert alert-danger'>Tidak ada data</div>";
         } else {
 
             while ($d = mysqli_fetch_assoc($data)) {
@@ -184,9 +184,9 @@ class Class_Barang
 
         $data1 = mysqli_num_rows($data);
         if ($data1 == 0) {
-            var_dump($data1);
+            // var_dump($data1);
 
-            echo "<div class='alert alert-danger'>Tidak ada data</div>";
+            // echo "<div class='alert alert-danger'>Tidak ada data</div>";
         } else {
 
             while ($d = mysqli_fetch_assoc($data)) {
@@ -207,7 +207,7 @@ class Class_Barang
 
         $data1 = mysqli_num_rows($data);
         if ($data1 == 0) {
-            var_dump($data1);
+            // var_dump($data1);
 
             echo "<div class='alert alert-danger'>Tidak ada data</div>";
         } else {

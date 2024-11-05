@@ -15,7 +15,7 @@ include_once("fungsi/nomatbrg.php");
 // Mengambil kode barang masuk
 include_once("fungsi/nomatbrgmasuk.php");
 // Mengambil nomor pinjam
-include_once("fungsi/nomatpinjam.php");
+// include_once("fungsi/nomatpinjam.php");
 
 
 if (isset($_GET['hapus'])) {
