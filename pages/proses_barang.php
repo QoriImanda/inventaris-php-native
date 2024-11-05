@@ -11,20 +11,20 @@ $aksi = $_GET["aksi"];
 
 if ($aksi == "tambah") {
     // var_dump(json_encode($_POST["kode_barang"][0]));
-    echo '<pre>';
-    echo json_encode($_POST, JSON_PRETTY_PRINT);
-    echo '</pre>';
+    // echo '<pre>';
+    // echo json_encode($_POST, JSON_PRETTY_PRINT);
+    // echo '</pre>';
 
-    // for ($i = 0; $i < count($_POST["kode_barang"]); $i++) {
-    //     $kode_barang = $_POST["kode_barang"][$i];
-    //     $nama_barang = $_POST["nama_barang"][$i];
-    //     $db->input_barangbaru($kode_barang, $nama_barang);
+    for ($i = 0; $i < count($_POST["kode_barang"]); $i++) {
+        $kode_barang = $_POST["kode_barang"][$i];
+        $nama_barang = $_POST["nama_barang"][$i];
+        $db->input_barangbaru($kode_barang, $nama_barang);
 
-    //     $index = $i + 1;
-    //     if ($index == count($_POST["kode_barang"])) {
-    //         echo "<script>alert('Data barang tersimpan'); window.location.href='../index.php?page=databarang';</script>";
-    //     }
-    // }
+        $index = $i + 1;
+        if ($index == count($_POST["kode_barang"])) {
+            echo "<script>alert('Data barang tersimpan'); window.location.href='../index.php?page=databarang';</script>";
+        }
+    }
 }
 
 // ===========================================================================================
