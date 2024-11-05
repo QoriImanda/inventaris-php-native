@@ -90,7 +90,7 @@ if ($data == null) {
                         <th>No</th>
                         <th>Barang</th>
                         <th>Jumlah</th>
-                        <th>Tanggal Masuk</th>
+                        <th>Tanggal</th>
                     </tr>
                 </thead>
                 <tbody>';
