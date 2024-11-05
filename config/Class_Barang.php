@@ -341,10 +341,10 @@ class Class_Barang
 
         $data1 = mysqli_query($koneksi, $sql1);
 
-        $sql2 = "update tbl_pinjam set keterangan='" . $keterangan . "' where nomor_pinjam='" . $no_pinjam . "'";
+        // $sql2 = "update tbl_pinjam set keterangan='" . $keterangan . "' where nomor_pinjam='" . $no_pinjam . "'";
         // echo $sql2;
 
-        $data2 = mysqli_query($koneksi, $sql2);
+        // $data2 = mysqli_query($koneksi, $sql2);
 
         $sql3 = "update tbl_stok set jml_barangkeluar='" . $stok . "' where kode_barang='" . $kode_barang . "'";
         // echo $sql3;
