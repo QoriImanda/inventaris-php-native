@@ -22,6 +22,17 @@ if ($cetakLaporan == 'masuk') {
     $data = $db->cetakLaporanBarangKeluar($_POST['tgl_mulai'], $_POST['tgl_akhir']);
 }
 
+$tgl_mulai = $_POST['tgl_mulai'];
+$tgl_akhir = $_POST['tgl_akhir'];
+
+$date_mulai = DateTime::createFromFormat('Y-m-d', $tgl_mulai);
+$date_akhir = DateTime::createFromFormat('Y-m-d', $tgl_akhir);
+
+setlocale(LC_TIME, 'id_ID.UTF-8'); 
+
+$formatted_tgl_mulai = strftime('%d %B %Y', $date_mulai->getTimestamp());
+$formatted_tgl_akhir = strftime('%d %B %Y', $date_akhir->getTimestamp());
+
 // var_dump($data);
 
 if ($data == null) {
@@ -72,7 +83,7 @@ if ($data == null) {
         </head>
         <body>
             <h2>Laporan Barang ' . htmlspecialchars($cetakLaporan) . '</h2>
-            <p class="date">Tanggal: ' . $_POST['tgl_mulai'] . '-' . $_POST['tgl_akhir'] . '</p>
+            <p class="date">Tanggal: ' . $formatted_tgl_mulai . ' - ' . $formatted_tgl_akhir . '</p>
             <table>
                 <thead>
                     <tr>
